@@ -6,7 +6,6 @@
   "mongoDS": {
     "host": "localhost",
     "port": 27017,
-    "url": "",
     "database": "recipe-manager",
     "password": "",
     "name": "mongoDS",
