@@ -1,7 +1,7 @@
 const hostname = window && window.location && window.location.hostname;
 
 const backendHost =
-  hostname === "herokuapp.com"
+  hostname === "infinite-earth-59944.herokuapp.com"
     ? "https://infinite-earth-59944.herokuapp.com"
     : "http://localhost:3000";
 
