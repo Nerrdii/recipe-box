@@ -84,9 +84,30 @@ class RecipeDetails extends Component {
         >
           Edit
         </Link>
-        <button className="btn red" onClick={this.confirmDelete}>
+        <button className="btn red modal-trigger" data-target="deleteModal">
           Delete
         </button>
+        <div id="deleteModal" className="modal">
+          <div className="modal-content">
+            <h5>Are you sure you want to delete this recipe?</h5>
+          </div>
+          <div className="modal-footer">
+            <button
+              className="modal-action modal-close btn red"
+              onClick={() => {
+                this.confirmDelete();
+              }}
+            >
+              Yes
+            </button>
+            <button
+              className="modal-action modal-close btn grey"
+              style={{ marginLeft: "5px" }}
+            >
+              No
+            </button>
+          </div>
+        </div>
       </div>
     );
   }

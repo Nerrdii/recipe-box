@@ -27,14 +27,21 @@ class Recipes extends Component {
   }
 
   render() {
-    const recipes = this.state.recipes.map(recipe => {
-      return <Recipe key={recipe.id} item={recipe} />;
-    });
+    const recipes =
+      this.state.recipes.length !== 0 ? (
+        <ul className="collection">
+          {this.state.recipes.map(recipe => {
+            return <Recipe key={recipe.id} item={recipe} />;
+          })}
+        </ul>
+      ) : (
+        <p>No Recipes</p>
+      );
 
     return (
       <div>
         <h1>Recipes</h1>
-        <ul className="collection">{recipes}</ul>
+        {recipes}
       </div>
     );
   }
