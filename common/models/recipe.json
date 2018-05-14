@@ -10,16 +10,16 @@
       "type": "string",
       "required": true
     },
+    "description": {
+      "type": "string",
+      "required": true
+    },
     "ingredients": {
-      "type": [
-        "string"
-      ],
+      "type": ["string"],
       "required": true
     },
     "directions": {
-      "type": [
-        "string"
-      ],
+      "type": ["string"],
       "required": true
     }
   },
