@@ -9,7 +9,7 @@ class Navbar extends Component {
       <nav className="indigo">
         <div className="nav-wrapper">
           <Link to="/" className="brand-logo">
-            Recipe Manager
+            Recipe Box
           </Link>
           <a data-activates="sidebar" className="button-collapse">
             <i className="material-icons">menu</i>
