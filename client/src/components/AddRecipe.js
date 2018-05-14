@@ -2,79 +2,31 @@ import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { Formik, Field, FieldArray, Form } from "formik";
 import ErrorMessage from "./ErrorMessage";
-import API_ROOT from "./api";
+
+import "./css/AddRecipe.css";
 
 import schema from "./schema";
 
-class EditRecipe extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      name: "",
-      ingredients: [],
-      directions: []
-    };
-  }
-
-  handleSubmit(values, e, formApi) {
-    fetch(`${API_ROOT}/recipes`, {
-      method: "POST",
-      body: JSON.stringify(values),
-      headers: new Headers({
-        "Content-Type": "application/json"
-      })
-    }).catch(err => console.log(err));
-  }
-
-  componentDidMount() {
-    this.getRecipe();
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    if (nextState !== null) {
-      return true;
-    }
-  }
-
-  getRecipe() {
-    const id = this.props.match.params.id;
-
-    fetch(`${API_ROOT}/recipes/${id}`)
-      .then(res => res.json())
-      .then(data => {
-        this.setState({
-          name: data.name,
-          ingredients: data.ingredients,
-          directions: data.directions
-        });
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }
-
+class AddRecipe extends Component {
   render() {
     return (
       <Formik
         initialValues={{
-          name: this.state.name,
-          ingredients: this.state.ingredients,
-          directions: this.state.directions
+          name: "",
+          ingredients: [""],
+          directions: [""]
         }}
         enableReinitialize={true}
         onSubmit={values => {
-          const id = this.props.match.params.id;
-
-          fetch(`${API_ROOT}/recipes/${id}`, {
-            method: "PUT",
+          fetch(`/api/recipes`, {
+            method: "POST",
             body: JSON.stringify(values),
             headers: new Headers({
               "Content-Type": "application/json"
             })
           }).catch(err => console.log(err));
 
-          this.props.history.push(`/recipes/${id}`);
+          this.props.history.push(`/`);
         }}
         validationSchema={schema}
         render={({
@@ -90,13 +42,10 @@ class EditRecipe extends Component {
         }) => (
           <Form>
             <br />
-            <Link
-              to={`/recipes/${this.props.match.params.id}`}
-              className="btn grey"
-            >
+            <Link to="/" className="btn grey">
               Cancel
             </Link>
-            <h1>Edit Recipe</h1>
+            <h1>Add Recipe</h1>
             <div className="col s12">
               <div className="input-field">
                 <Field
@@ -232,4 +181,4 @@ class EditRecipe extends Component {
   }
 }
 
-export default withRouter(EditRecipe);
+export default withRouter(AddRecipe);

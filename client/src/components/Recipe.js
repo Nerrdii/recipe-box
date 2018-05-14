@@ -13,7 +13,7 @@ class Recipe extends Component {
   render() {
     return (
       <li className="collection-item">
-        <Link to={`/recipes/${this.state.item.id}`}>
+        <Link to={`/recipes/${this.state.item._id}`}>
           {this.state.item.name}
         </Link>
       </li>

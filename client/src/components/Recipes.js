@@ -1,22 +1,17 @@
 import React, { Component } from "react";
 import Recipe from "./Recipe";
-import API_ROOT from "./api";
 
 class Recipes extends Component {
-  constructor() {
-    super();
-
-    this.state = {
-      recipes: []
-    };
-  }
+  state = {
+    recipes: []
+  };
 
   componentDidMount() {
     this.getRecipes();
   }
 
   getRecipes() {
-    fetch(`${API_ROOT}/recipes`)
+    fetch("/api/recipes")
       .then(res => res.json())
       .then(data => {
         this.setState({ recipes: data });
@@ -31,7 +26,7 @@ class Recipes extends Component {
       this.state.recipes.length !== 0 ? (
         <ul className="collection">
           {this.state.recipes.map(recipe => {
-            return <Recipe key={recipe.id} item={recipe} />;
+            return <Recipe key={recipe._id} item={recipe} />;
           })}
         </ul>
       ) : (

@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
-import API_ROOT from "./api";
 
 class RecipeDetails extends Component {
   constructor() {
@@ -25,7 +24,7 @@ class RecipeDetails extends Component {
 
     this.setState({ id: id });
 
-    fetch(`${API_ROOT}/recipes/${id}`)
+    fetch(`/api/recipes/${id}`)
       .then(res => res.json())
       .then(data => {
         this.setState({
@@ -40,11 +39,11 @@ class RecipeDetails extends Component {
   }
 
   confirmDelete() {
-    fetch(`${API_ROOT}/recipes/${this.state.id}`, {
+    fetch(`/api/recipes/${this.state.id}`, {
       method: "DELETE"
     }).catch(err => console.log(err));
 
-    this.props.history.push(`/`);
+    this.props.history.push("/");
   }
 
   render() {
@@ -65,7 +64,7 @@ class RecipeDetails extends Component {
     });
 
     return (
-      <div>
+      <div style={{ marginBottom: "20px" }}>
         <br />
         <Link to="/" className="btn grey">
           Back
@@ -84,30 +83,9 @@ class RecipeDetails extends Component {
         >
           Edit
         </Link>
-        <button className="btn red modal-trigger" data-target="deleteModal">
+        <button className="btn red modal-trigger" onClick={this.confirmDelete}>
           Delete
         </button>
-        <div id="deleteModal" className="modal">
-          <div className="modal-content">
-            <h5>Are you sure you want to delete this recipe?</h5>
-          </div>
-          <div className="modal-footer">
-            <button
-              className="modal-action modal-close btn red"
-              onClick={() => {
-                this.confirmDelete();
-              }}
-            >
-              Yes
-            </button>
-            <button
-              className="modal-action modal-close btn grey"
-              style={{ marginLeft: "5px" }}
-            >
-              No
-            </button>
-          </div>
-        </div>
       </div>
     );
   }
