@@ -19,10 +19,11 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  const { name, ingredients, directions, servings } = req.body;
+  const { name, ingredients, directions, servings, description } = req.body;
 
   const newRecipe = new Recipe({
     name,
+    description,
     ingredients,
     directions,
     servings
