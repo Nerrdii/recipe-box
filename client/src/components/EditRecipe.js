@@ -8,6 +8,8 @@ import schema from "./schema";
 class EditRecipe extends Component {
   state = {
     name: "",
+    description: "",
+    servings: 0,
     ingredients: [],
     directions: []
   };
@@ -40,6 +42,8 @@ class EditRecipe extends Component {
       .then(data => {
         this.setState({
           name: data.name,
+          description: data.description,
+          servings: data.servings,
           ingredients: data.ingredients,
           directions: data.directions
         });
@@ -54,6 +58,8 @@ class EditRecipe extends Component {
       <Formik
         initialValues={{
           name: this.state.name,
+          description: this.state.description,
+          servings: this.state.servings,
           ingredients: this.state.ingredients,
           directions: this.state.directions
         }}
@@ -104,6 +110,26 @@ class EditRecipe extends Component {
                 <label htmlFor="name">Name</label>
                 {touched.name &&
                   errors.name && <div className="chip red">{errors.name}</div>}
+              </div>
+              <div className="input-field">
+                <Field
+                  type="text"
+                  name="description"
+                  id="description"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
+                <label htmlFor="description">Description</label>
+              </div>
+              <div className="input-field">
+                <Field
+                  type="number"
+                  name="servings"
+                  id="servings"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
+                <label htmlFor="servings">Servings</label>
               </div>
               <h4>Ingredients</h4>
               <FieldArray

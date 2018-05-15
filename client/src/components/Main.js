@@ -9,7 +9,7 @@ import RecipeDetails from "./RecipeDetails";
 class Main extends Component {
   render() {
     return (
-      <main>
+      <div className="container">
         <Switch>
           <Route exact path="/" component={Recipes} />
           <Route exact path="/about" component={About} />
@@ -17,7 +17,7 @@ class Main extends Component {
           <Route path="/recipes/:id/edit" component={EditRecipe} />
           <Route path="/recipes/:id" component={RecipeDetails} />
         </Switch>
-      </main>
+      </div>
     );
   }
 }

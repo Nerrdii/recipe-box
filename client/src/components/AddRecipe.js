@@ -13,6 +13,8 @@ class AddRecipe extends Component {
       <Formik
         initialValues={{
           name: "",
+          description: "",
+          servings: 0,
           ingredients: [""],
           directions: [""]
         }}
@@ -58,6 +60,26 @@ class AddRecipe extends Component {
                 <label htmlFor="name">Name</label>
                 {touched.name &&
                   errors.name && <div className="chip red">{errors.name}</div>}
+              </div>
+              <div className="input-field">
+                <Field
+                  type="text"
+                  name="description"
+                  id="description"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
+                <label htmlFor="description">Description</label>
+              </div>
+              <div className="input-field">
+                <Field
+                  type="number"
+                  name="servings"
+                  id="servings"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
+                <label htmlFor="servings">Servings</label>
               </div>
               <h4>Ingredients</h4>
               <FieldArray

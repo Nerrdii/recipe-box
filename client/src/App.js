@@ -8,9 +8,7 @@ class App extends Component {
     return (
       <div>
         <Navbar />
-        <div className="container">
-          <Main />
-        </div>
+        <Main />
         <div className="fixed-action-btn">
           <Link to="/recipes/add" className="btn-floating btn-large red">
             <i className="large material-icons">add</i>

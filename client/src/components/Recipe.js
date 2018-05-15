@@ -12,11 +12,21 @@ class Recipe extends Component {
 
   render() {
     return (
-      <li className="collection-item">
-        <Link to={`/recipes/${this.state.item._id}`}>
-          {this.state.item.name}
-        </Link>
-      </li>
+      <div className="card">
+        <div className="card-content">
+          <span className="card-title">
+            <Link to={`/recipes/${this.state.item._id}`}>
+              {this.state.item.name}
+            </Link>
+          </span>
+          <p>{this.state.item.description}</p>
+          <p>
+            {this.state.item.servings !== 0 && this.state.item.servings !== ""
+              ? "Servings: " + this.state.item.servings
+              : null}
+          </p>
+        </div>
+      </div>
     );
   }
 }

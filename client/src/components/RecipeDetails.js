@@ -8,6 +8,8 @@ class RecipeDetails extends Component {
     this.state = {
       id: "",
       name: "",
+      description: "",
+      servings: null,
       ingredients: [],
       directions: []
     };
@@ -29,6 +31,8 @@ class RecipeDetails extends Component {
       .then(data => {
         this.setState({
           name: data.name,
+          description: data.description,
+          servings: data.servings,
           ingredients: data.ingredients,
           directions: data.directions
         });
@@ -70,6 +74,14 @@ class RecipeDetails extends Component {
           Back
         </Link>
         <h2>{this.state.name}</h2>
+        <div style={{ fontSize: "1.2rem" }}>
+          <p>{this.state.description !== "" ? this.state.description : null}</p>
+          <p>
+            {this.state.servings !== null && this.state.servings !== 0
+              ? "Servings: " + this.state.servings
+              : null}
+          </p>
+        </div>
         <h4>Ingredients</h4>
         <ul className="collection">{ingredients}</ul>
         <h4>Directions</h4>

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Recipe from "./Recipe";
+import "./css/Recipes.css";
 
 class Recipes extends Component {
   state = {
@@ -24,11 +25,11 @@ class Recipes extends Component {
   render() {
     const recipes =
       this.state.recipes.length !== 0 ? (
-        <ul className="collection">
+        <div className="recipe-container">
           {this.state.recipes.map(recipe => {
             return <Recipe key={recipe._id} item={recipe} />;
           })}
-        </ul>
+        </div>
       ) : (
         <p>No Recipes</p>
       );
