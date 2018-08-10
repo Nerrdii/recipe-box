@@ -1,6 +1,6 @@
-import React, { Component } from "react";
-import Recipe from "./Recipe";
-import "./css/Recipes.css";
+import React, { Component } from 'react';
+import Recipe from './Recipe';
+import './css/Recipes.css';
 
 class Recipes extends Component {
   constructor() {
@@ -19,7 +19,7 @@ class Recipes extends Component {
   }
 
   getRecipes() {
-    fetch("/api/recipes")
+    fetch('/api/recipes')
       .then(res => res.json())
       .then(data => {
         this.setState({ initialRecipes: data });

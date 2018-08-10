@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import { Switch, Route } from "react-router-dom";
-import Recipes from "./Recipes";
-import About from "./About";
-import AddRecipe from "./AddRecipe";
-import EditRecipe from "./EditRecipe";
-import RecipeDetails from "./RecipeDetails";
+import React, { Component } from 'react';
+import { Switch, Route } from 'react-router-dom';
+import Recipes from './Recipes';
+import About from './About';
+import AddRecipe from './AddRecipe';
+import EditRecipe from './EditRecipe';
+import RecipeDetails from './RecipeDetails';
 
 class Main extends Component {
   render() {

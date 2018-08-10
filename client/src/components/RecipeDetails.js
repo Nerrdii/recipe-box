@@ -1,14 +1,14 @@
-import React, { Component } from "react";
-import { Link, withRouter } from "react-router-dom";
+import React, { Component } from 'react';
+import { Link, withRouter } from 'react-router-dom';
 
 class RecipeDetails extends Component {
   constructor() {
     super();
 
     this.state = {
-      id: "",
-      name: "",
-      description: "",
+      id: '',
+      name: '',
+      description: '',
       servings: null,
       ingredients: [],
       directions: []
@@ -44,10 +44,10 @@ class RecipeDetails extends Component {
 
   confirmDelete() {
     fetch(`/api/recipes/${this.state.id}`, {
-      method: "DELETE"
+      method: 'DELETE'
     }).catch(err => console.log(err));
 
-    this.props.history.push("/");
+    this.props.history.push('/');
   }
 
   render() {
@@ -68,17 +68,17 @@ class RecipeDetails extends Component {
     });
 
     return (
-      <div style={{ marginBottom: "20px" }}>
+      <div style={{ marginBottom: '20px' }}>
         <br />
         <Link to="/" className="btn grey">
           Back
         </Link>
         <h2>{this.state.name}</h2>
-        <div style={{ fontSize: "1.2rem" }}>
-          <p>{this.state.description !== "" ? this.state.description : null}</p>
+        <div style={{ fontSize: '1.2rem' }}>
+          <p>{this.state.description !== '' ? this.state.description : null}</p>
           <p>
             {this.state.servings !== null && this.state.servings !== 0
-              ? "Servings: " + this.state.servings
+              ? 'Servings: ' + this.state.servings
               : null}
           </p>
         </div>
@@ -91,8 +91,7 @@ class RecipeDetails extends Component {
             pathname: `/recipes/${this.props.match.params.id}/edit`,
             state: this.state
           }}
-          className="btn"
-        >
+          className="btn">
           Edit
         </Link>
         <button className="btn red modal-trigger" onClick={this.confirmDelete}>

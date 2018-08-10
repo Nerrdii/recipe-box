@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 class Recipe extends Component {
   constructor(props) {
@@ -21,8 +21,8 @@ class Recipe extends Component {
           </span>
           <p>{this.state.item.description}</p>
           <p>
-            {this.state.item.servings !== 0 && this.state.item.servings !== ""
-              ? "Servings: " + this.state.item.servings
+            {this.state.item.servings !== 0 && this.state.item.servings !== ''
+              ? 'Servings: ' + this.state.item.servings
               : null}
           </p>
         </div>

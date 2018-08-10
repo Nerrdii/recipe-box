@@ -1,30 +1,30 @@
-import React, { Component } from "react";
-import { Link, withRouter } from "react-router-dom";
-import { Formik, Field, FieldArray, Form } from "formik";
-import ErrorMessage from "./ErrorMessage";
+import React, { Component } from 'react';
+import { Link, withRouter } from 'react-router-dom';
+import { Formik, Field, FieldArray, Form } from 'formik';
+import ErrorMessage from './ErrorMessage';
 
-import "./css/AddRecipe.css";
+import './css/AddRecipe.css';
 
-import schema from "./schema";
+import schema from '../config/schema.js';
 
 class AddRecipe extends Component {
   render() {
     return (
       <Formik
         initialValues={{
-          name: "",
-          description: "",
+          name: '',
+          description: '',
           servings: 0,
-          ingredients: [""],
-          directions: [""]
+          ingredients: [''],
+          directions: ['']
         }}
         enableReinitialize={true}
         onSubmit={values => {
           fetch(`/api/recipes`, {
-            method: "POST",
+            method: 'POST',
             body: JSON.stringify(values),
             headers: new Headers({
-              "Content-Type": "application/json"
+              'Content-Type': 'application/json'
             })
           }).catch(err => console.log(err));
 
@@ -110,7 +110,7 @@ class AddRecipe extends Component {
                         <button
                           type="button"
                           className="btn"
-                          onClick={() => arrayHelpers.insert(index + 1, "")}
+                          onClick={() => arrayHelpers.insert(index + 1, '')}
                         >
                           Add
                         </button>
@@ -122,7 +122,7 @@ class AddRecipe extends Component {
                       <button
                         type="button"
                         className="btn"
-                        onClick={() => arrayHelpers.push("")}
+                        onClick={() => arrayHelpers.push('')}
                       >
                         Add an Ingredient
                       </button>
@@ -159,7 +159,7 @@ class AddRecipe extends Component {
                           <button
                             type="button"
                             className="btn"
-                            onClick={() => arrayHelpers.insert(index + 1, "")}
+                            onClick={() => arrayHelpers.insert(index + 1, '')}
                           >
                             Add
                           </button>
@@ -171,7 +171,7 @@ class AddRecipe extends Component {
                         <button
                           type="button"
                           className="btn"
-                          onClick={() => arrayHelpers.push("")}
+                          onClick={() => arrayHelpers.push('')}
                         >
                           Add a Direction
                         </button>
