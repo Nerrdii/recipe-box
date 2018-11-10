@@ -1,16 +1,15 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const mongoose = require("mongoose");
 
-const Recipe = mongoose.model("recipes");
+const Recipe = require('../models/Recipe');
 
-router.get("/", async (req, res) => {
+router.get('/', async (req, res) => {
   const recipes = await Recipe.find({});
 
   res.send(recipes);
 });
 
-router.get("/:id", async (req, res) => {
+router.get('/:id', async (req, res) => {
   const { id } = req.params;
 
   const recipe = await Recipe.findById(id);
@@ -18,7 +17,7 @@ router.get("/:id", async (req, res) => {
   res.send(recipe);
 });
 
-router.post("/", async (req, res) => {
+router.post('/', async (req, res) => {
   const { name, ingredients, directions, servings, description } = req.body;
 
   const newRecipe = new Recipe({
@@ -34,7 +33,7 @@ router.post("/", async (req, res) => {
   res.send(recipe);
 });
 
-router.put("/:id", async (req, res) => {
+router.put('/:id', async (req, res) => {
   const { id } = req.params;
 
   const recipe = await Recipe.findByIdAndUpdate(id, req.body, { new: true });
@@ -42,10 +41,10 @@ router.put("/:id", async (req, res) => {
   res.send(recipe);
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete('/:id', async (req, res) => {
   const { id } = req.params;
 
-  const recipe = await Recipe.findByIdAndRemove(id);
+  await Recipe.findByIdAndRemove(id);
 
   res.status(200).send();
 });

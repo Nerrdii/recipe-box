@@ -1,9 +1,8 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
-const keys = require("./config/keys");
+const express = require('express');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 
-require("./models/Recipe");
+const keys = require('./config/keys');
 
 mongoose.connect(keys.mongoURI);
 
@@ -11,14 +10,14 @@ const app = express();
 
 app.use(bodyParser.json());
 
-app.use("/api/recipes", require("./routes/recipeRoutes"));
+app.use('/api/recipes', require('./routes/recipeRoutes'));
 
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static("client/build"));
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('client/build'));
 
-  const path = require("path");
-  app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  const path = require('path');
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
   });
 }
 
