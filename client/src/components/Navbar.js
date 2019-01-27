@@ -19,18 +19,12 @@ class Navbar extends Component {
               <Link to="/">Recipes</Link>
             </li>
             <li>
-              <Link to="/about">About</Link>
-            </li>
-            <li>
               <Link to="/recipes/add">Add Recipe</Link>
             </li>
           </ul>
           <ul className="side-nav" id="sidebar">
             <li>
               <Link to="/">Recipes</Link>
-            </li>
-            <li>
-              <Link to="/about">About</Link>
             </li>
             <li>
               <Link to="/recipes/add">Add Recipe</Link>
