@@ -1,100 +1,79 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
+import axios from 'axios';
 
 class RecipeDetails extends Component {
-  constructor() {
-    super();
-
-    this.state = {
-      id: '',
-      name: '',
-      description: '',
-      servings: null,
-      ingredients: [],
-      directions: []
-    };
-
-    this.confirmDelete = this.confirmDelete.bind(this);
-  }
+  state = {
+    recipe: null
+  };
 
   componentDidMount() {
     this.getRecipe();
   }
 
-  getRecipe() {
+  getRecipe = async () => {
     const id = this.props.match.params.id;
 
-    this.setState({ id: id });
+    const res = await axios.get(`/api/recipes/${id}`);
 
-    fetch(`/api/recipes/${id}`)
-      .then(res => res.json())
-      .then(data => {
-        this.setState({
-          name: data.name,
-          description: data.description,
-          servings: data.servings,
-          ingredients: data.ingredients,
-          directions: data.directions
-        });
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }
+    this.setState({ recipe: res.data });
+  };
 
-  confirmDelete() {
-    fetch(`/api/recipes/${this.state.id}`, {
-      method: 'DELETE'
-    }).catch(err => console.log(err));
+  onDelete = async () => {
+    await axios.delete(`/api/recipes/${this.state.recipe._id}`);
 
     this.props.history.push('/');
-  }
+  };
 
   render() {
-    const ingredients = this.state.ingredients.map((ingredient, index) => {
-      return (
-        <li className="collection-item" key={index}>
-          {ingredient}
-        </li>
-      );
-    });
-
-    const directions = this.state.directions.map(function(direction, index) {
-      return (
-        <li className="collection-item" key={index}>
-          {index + 1}. {direction}
-        </li>
-      );
-    });
+    if (!this.state.recipe) {
+      return <div>Loading...</div>;
+    }
 
     return (
-      <div style={{ marginBottom: '20px' }}>
-        <br />
+      <div style={{ marginTop: '20px' }}>
         <Link to="/" className="btn grey">
           Back
         </Link>
-        <h2>{this.state.name}</h2>
-        <div style={{ fontSize: '1.2rem' }}>
-          <p>{this.state.description !== '' ? this.state.description : null}</p>
+        <h2>{this.state.recipe.name}</h2>
+        <div>
+          <p>{this.state.recipe.description}</p>
           <p>
-            {this.state.servings !== null && this.state.servings !== 0
-              ? 'Servings: ' + this.state.servings
+            {this.state.recipe.servings !== null &&
+            this.state.recipe.servings !== 0
+              ? 'Servings: ' + this.state.recipe.servings
               : null}
           </p>
         </div>
         <h4>Ingredients</h4>
-        <ul className="collection">{ingredients}</ul>
+        <ul className="collection">
+          {this.state.recipe.ingredients.map((ingredient, index) => {
+            return (
+              <li className="collection-item" key={index}>
+                {ingredient}
+              </li>
+            );
+          })}
+        </ul>
         <h4>Directions</h4>
-        <ul className="collection">{directions}</ul>
+        <ul className="collection">
+          {this.state.recipe.directions.map((direction, index) => {
+            return (
+              <li className="collection-item" key={index}>
+                {index + 1}. {direction}
+              </li>
+            );
+          })}
+        </ul>
         <Link
           to={{
-            pathname: `/recipes/${this.props.match.params.id}/edit`,
+            pathname: `/recipes/${this.state.recipe._id}/edit`,
             state: this.state
           }}
           className="btn">
           Edit
         </Link>
-        <button className="btn red modal-trigger" onClick={this.confirmDelete}>
+        <button className="btn red modal-trigger" onClick={this.onDelete}>
           Delete
         </button>
       </div>

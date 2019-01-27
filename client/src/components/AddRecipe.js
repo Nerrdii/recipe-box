@@ -37,7 +37,6 @@ class AddRecipe extends Component {
           touched,
           handleChange,
           handleBlur,
-          handleSubmit,
           isSubmitting,
           handleReset,
           dirty
@@ -58,8 +57,9 @@ class AddRecipe extends Component {
                   onBlur={handleBlur}
                 />
                 <label htmlFor="name">Name</label>
-                {touched.name &&
-                  errors.name && <div className="chip red">{errors.name}</div>}
+                {touched.name && errors.name && (
+                  <div className="chip red">{errors.name}</div>
+                )}
               </div>
               <div className="input-field">
                 <Field
@@ -103,15 +103,13 @@ class AddRecipe extends Component {
                         <button
                           type="button"
                           className="btn"
-                          onClick={() => arrayHelpers.remove(index)}
-                        >
+                          onClick={() => arrayHelpers.remove(index)}>
                           Remove
                         </button>
                         <button
                           type="button"
                           className="btn"
-                          onClick={() => arrayHelpers.insert(index + 1, '')}
-                        >
+                          onClick={() => arrayHelpers.insert(index + 1, '')}>
                           Add
                         </button>
                       </div>
@@ -122,8 +120,7 @@ class AddRecipe extends Component {
                       <button
                         type="button"
                         className="btn"
-                        onClick={() => arrayHelpers.push('')}
-                      >
+                        onClick={() => arrayHelpers.push('')}>
                         Add an Ingredient
                       </button>
                     </div>
@@ -152,15 +149,13 @@ class AddRecipe extends Component {
                           <button
                             type="button"
                             className="btn"
-                            onClick={() => arrayHelpers.remove(index)}
-                          >
+                            onClick={() => arrayHelpers.remove(index)}>
                             Remove
                           </button>
                           <button
                             type="button"
                             className="btn"
-                            onClick={() => arrayHelpers.insert(index + 1, '')}
-                          >
+                            onClick={() => arrayHelpers.insert(index + 1, '')}>
                             Add
                           </button>
                         </div>
@@ -171,8 +166,7 @@ class AddRecipe extends Component {
                         <button
                           type="button"
                           className="btn"
-                          onClick={() => arrayHelpers.push('')}
-                        >
+                          onClick={() => arrayHelpers.push('')}>
                           Add a Direction
                         </button>
                       </div>
@@ -186,8 +180,7 @@ class AddRecipe extends Component {
                 type="button"
                 className="btn grey"
                 onClick={handleReset}
-                disabled={!dirty || isSubmitting}
-              >
+                disabled={!dirty || isSubmitting}>
                 Reset
               </button>
               <button type="submit" className="btn" disabled={isSubmitting}>
