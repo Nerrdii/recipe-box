@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Formik, Field, FieldArray, Form } from 'formik';
 import ErrorMessage from './ErrorMessage';
@@ -23,7 +23,7 @@ class AddRecipe extends Component {
         }}
         enableReinitialize={true}
         onSubmit={values => {
-          this.props.addRecipe(JSON.stringify(values));
+          this.props.addRecipe(values);
 
           this.props.history.push(`/`);
         }}

@@ -1,9 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+
+import { logout } from '../actions/userActions';
 
 import './css/Navbar.css';
 
-export const Navbar = () => (
+export const Navbar = ({ logout, loggedIn }) => (
   <nav className="indigo">
     <div className="nav-wrapper">
       <Link to="/" className="brand-logo">
@@ -13,23 +16,43 @@ export const Navbar = () => (
         <i className="material-icons">menu</i>
       </a>
       <ul className="right hide-on-med-and-down">
+        {loggedIn ? (
+          <li>
+            <button onClick={logout}>Logout</button>
+          </li>
+        ) : (
+          <li>
+            <a href="/auth/google">Sign in with Google</a>
+          </li>
+        )}
         <li>
           <Link to="/">Recipes</Link>
         </li>
-        <li>
-          <Link to="/recipes/add">Add Recipe</Link>
-        </li>
+        {loggedIn ? (
+          <li>
+            <Link to="/recipes/add">Add Recipe</Link>
+          </li>
+        ) : null}
       </ul>
       <ul className="side-nav" id="sidebar">
         <li>
           <Link to="/">Recipes</Link>
         </li>
-        <li>
-          <Link to="/recipes/add">Add Recipe</Link>
-        </li>
+        {loggedIn ? (
+          <li>
+            <Link to="/recipes/add">Add Recipe</Link>
+          </li>
+        ) : null}
       </ul>
     </div>
   </nav>
 );
 
-export default Navbar;
+const mapStateToProps = ({ auth }) => {
+  return { loggedIn: auth.loggedIn };
+};
+
+export default connect(
+  mapStateToProps,
+  { logout }
+)(Navbar);

@@ -16,7 +16,15 @@ router.get(
   (req, res) => {
     const token = jwt.sign(req.user.toJSON(), jwtSecret);
 
-    res.status(200).send({ token });
+    res.cookie('token', token).redirect('/');
+  }
+);
+
+router.get(
+  '/current_user',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    res.send(req.user);
   }
 );
 

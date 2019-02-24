@@ -50,7 +50,7 @@ passport.use(
     },
     async (req, payload, done) => {
       try {
-        const user = await User.findById(payload.id);
+        const user = await User.findById(payload._id);
 
         if (user) {
           return done(null, user);

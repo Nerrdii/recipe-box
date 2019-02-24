@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import Navbar from './Navbar';
 import Recipes from './Recipes';
@@ -21,15 +22,21 @@ class App extends Component {
               <Route path="/recipes/:id" component={RecipeDetails} />
             </Switch>
           </div>
-          <div className="fixed-action-btn">
-            <Link to="/recipes/add" className="btn-floating btn-large red">
-              <i className="large material-icons">add</i>
-            </Link>
-          </div>
+          {this.props.loggedIn ? (
+            <div className="fixed-action-btn">
+              <Link to="/recipes/add" className="btn-floating btn-large red">
+                <i className="large material-icons">add</i>
+              </Link>
+            </div>
+          ) : null}
         </React.Fragment>
       </BrowserRouter>
     );
   }
 }
 
-export default App;
+const mapStateToProps = ({ auth }) => {
+  return { loggedIn: auth.loggedIn };
+};
+
+export default connect(mapStateToProps)(App);
