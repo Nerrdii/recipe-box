@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 import { Formik, Field, FieldArray, Form } from 'formik';
 import ErrorMessage from './ErrorMessage';
 
 import './css/AddRecipe.css';
+
+import { addRecipe } from '../actions/recipesActions';
 
 import schema from '../config/schema.js';
 
@@ -20,13 +23,7 @@ class AddRecipe extends Component {
         }}
         enableReinitialize={true}
         onSubmit={values => {
-          fetch(`/api/recipes`, {
-            method: 'POST',
-            body: JSON.stringify(values),
-            headers: new Headers({
-              'Content-Type': 'application/json'
-            })
-          }).catch(err => console.log(err));
+          this.props.addRecipe(JSON.stringify(values));
 
           this.props.history.push(`/`);
         }}
@@ -196,4 +193,7 @@ class AddRecipe extends Component {
   }
 }
 
-export default withRouter(AddRecipe);
+export default connect(
+  null,
+  { addRecipe }
+)(AddRecipe);

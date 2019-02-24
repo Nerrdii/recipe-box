@@ -1,26 +1,18 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import { connect } from 'react-redux';
 
 import Recipe from './Recipe';
 import './css/Recipes.css';
 
-class Recipes extends Component {
-  state = {
-    recipes: []
-  };
+import { getRecipes } from '../actions/recipesActions';
 
+class Recipes extends Component {
   componentDidMount() {
-    this.getRecipes();
+    this.props.getRecipes();
   }
 
-  getRecipes = async () => {
-    const res = await axios.get('/api/recipes');
-
-    this.setState({ recipes: res.data });
-  };
-
   renderList() {
-    return this.state.recipes.map(recipe => {
+    return this.props.recipes.map(recipe => {
       return <Recipe key={recipe._id} recipe={recipe} />;
     });
   }
@@ -29,7 +21,7 @@ class Recipes extends Component {
     return (
       <div>
         <h1>Recipes</h1>
-        {this.state.recipes.length !== 0 ? (
+        {this.props.recipes.length !== 0 ? (
           <div className="recipe-container">{this.renderList()}</div>
         ) : (
           <p>No Recipes</p>
@@ -39,4 +31,11 @@ class Recipes extends Component {
   }
 }
 
-export default Recipes;
+const mapStateToProps = ({ recipes }) => {
+  return { recipes };
+};
+
+export default connect(
+  mapStateToProps,
+  { getRecipes }
+)(Recipes);
