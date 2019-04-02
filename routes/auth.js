@@ -15,19 +15,13 @@ router.get(
   '/google/callback',
   passport.authenticate('google', { session: false }),
   (req, res) => {
-    const token = jwt.sign({ user: req.user }, process.env.JWT_SECRET, {
+    const { user } = req;
+
+    const token = jwt.sign({ user }, process.env.JWT_SECRET, {
       expiresIn: '1h'
     });
 
-    res.send(token);
-  }
-);
-
-router.get(
-  '/current_user',
-  passport.authenticate('jwt', { session: false }),
-  (req, res) => {
-    res.send(req.user);
+    res.redirect(`/redirect?token=${token}`);
   }
 );
 

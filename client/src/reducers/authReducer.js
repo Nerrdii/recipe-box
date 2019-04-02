@@ -1,13 +1,17 @@
-import Cookies from 'js-cookie';
+import { LOGIN, LOGOUT } from '../actions/types';
 
-import { LOGOUT } from '../actions/types';
-
-let token = Cookies.get('token');
+let token = sessionStorage.getItem('token');
 
 const initialState = token ? { loggedIn: true, token } : { loggedIn: false };
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case LOGIN:
+      return {
+        ...state,
+        loggedIn: true,
+        token: action.payload
+      };
     case LOGOUT:
       return {
         ...state,

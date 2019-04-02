@@ -1,6 +1,7 @@
 import axios from 'axios';
-import Cookies from 'js-cookie';
+
+const token = sessionStorage.getItem('token');
 
 export default axios.create({
-  headers: { Authorization: `Bearer ${Cookies.get('token')}` }
+  headers: { Authorization: `Bearer ${token}` }
 });

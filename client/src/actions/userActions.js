@@ -1,9 +1,14 @@
-import Cookies from 'js-cookie';
+import { push } from 'connected-react-router';
+import { LOGIN, LOGOUT } from './types';
 
-import { LOGOUT } from './types';
+export const login = token => async dispatch => {
+  sessionStorage.setItem('token', token);
+  dispatch({ type: LOGIN, payload: token });
+  dispatch(push('/'));
+};
 
 export const logout = () => async dispatch => {
-  Cookies.remove('token');
+  sessionStorage.removeItem('token');
 
   dispatch({ type: LOGOUT });
 };

@@ -1,9 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-
 import { logout } from '../actions/userActions';
-
 import './css/Navbar.css';
 
 export const Navbar = ({ logout, loggedIn }) => (
@@ -18,11 +16,15 @@ export const Navbar = ({ logout, loggedIn }) => (
       <ul className="right hide-on-med-and-down">
         {loggedIn ? (
           <li>
-            <button onClick={logout}>Logout</button>
+            <button className="btn-flat red white-text" onClick={logout}>
+              Logout
+            </button>
           </li>
         ) : (
           <li>
-            <a href="/api/auth/google">Sign in with Google</a>
+            <a href="/api/auth/google" className="btn-flat red white-text">
+              Sign in with Google
+            </a>
           </li>
         )}
         <li>
