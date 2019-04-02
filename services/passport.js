@@ -2,30 +2,14 @@ const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const JWTStrategy = require('passport-jwt').Strategy;
 const ExtractJWT = require('passport-jwt').ExtractJwt;
-
-const {
-  googleClientId,
-  googleClientSecret,
-  jwtSecret
-} = require('../config/keys');
 const User = require('../models/User');
-
-passport.serializeUser((user, done) => {
-  done(null, user.id);
-});
-
-passport.deserializeUser((id, done) => {
-  User.findById(id).then(user => {
-    done(null, user);
-  });
-});
 
 passport.use(
   new GoogleStrategy(
     {
-      clientID: googleClientId,
-      clientSecret: googleClientSecret,
-      callbackURL: '/auth/google/callback'
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL: '/api/auth/google/callback'
     },
     async (accessToken, refreshToken, profile, done) => {
       const user = await User.findOne({ googleId: profile.id });
@@ -45,12 +29,11 @@ passport.use(
   new JWTStrategy(
     {
       jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-      secretOrKey: jwtSecret,
-      passReqToCallback: true
+      secretOrKey: process.env.JWT_SECRET
     },
-    async (req, payload, done) => {
+    async (payload, done) => {
       try {
-        const user = await User.findById(payload._id);
+        const { user } = payload;
 
         if (user) {
           return done(null, user);

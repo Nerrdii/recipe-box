@@ -1,22 +1,25 @@
 const express = require('express');
 const router = express.Router();
-const passport = require('passport');
 const jwt = require('jsonwebtoken');
-
-const { jwtSecret } = require('../config/keys');
+const passport = require('passport');
 
 router.get(
   '/google',
-  passport.authenticate('google', { scope: ['profile', 'email'] })
+  passport.authenticate('google', {
+    session: false,
+    scope: ['profile', 'email']
+  })
 );
 
 router.get(
   '/google/callback',
   passport.authenticate('google', { session: false }),
   (req, res) => {
-    const token = jwt.sign(req.user.toJSON(), jwtSecret);
+    const token = jwt.sign({ user: req.user }, process.env.JWT_SECRET, {
+      expiresIn: '1h'
+    });
 
-    res.cookie('token', token).redirect('/');
+    res.send(token);
   }
 );
 

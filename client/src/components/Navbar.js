@@ -22,7 +22,7 @@ export const Navbar = ({ logout, loggedIn }) => (
           </li>
         ) : (
           <li>
-            <a href="/auth/google">Sign in with Google</a>
+            <a href="/api/auth/google">Sign in with Google</a>
           </li>
         )}
         <li>
