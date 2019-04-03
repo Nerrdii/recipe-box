@@ -65,6 +65,12 @@ router.delete(
   async (req, res) => {
     const { id } = req.params;
 
+    let recipe = await Recipe.findById(id);
+
+    if (recipe._user.toString() != req.user._id) {
+      return res.status(403).send('Unauthorized');
+    }
+
     await Recipe.findByIdAndRemove(id);
 
     res.status(200).send();
