@@ -1,19 +1,30 @@
 # Recipe Box
 
-## Overview
-
 Recipe manager built with the MERN stack.
 
 ## Getting Started
 
+### Install dependencies
+
 ```bash
-# Install dependencies for server
 > npm install
 
-# Install dependencies for client
 > cd client
 > npm install
+```
 
-# Start development server
+### Setup environment variables
+
+Create .env file:
+
+```bash
+> touch .env
+```
+
+Copy variables from `.env.example` to `.env` and replace values.
+
+### Run server
+
+```bash
 > npm run dev
 ```
