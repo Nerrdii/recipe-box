@@ -20,7 +20,7 @@ app.use(logger('dev'));
 app.use(passport.initialize());
 
 app.use('/api/recipes', require('./routes/recipes'));
-app.use('/api/auth', require('./routes/auth'));
+app.use('/auth', require('./routes/auth'));
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('client/build'));
