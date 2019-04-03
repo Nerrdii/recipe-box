@@ -30,7 +30,7 @@ router.post(
       ingredients,
       directions,
       servings,
-      _user: req.user.id
+      _user: req.user._id
     });
 
     const recipe = await newRecipe.save();
@@ -45,7 +45,15 @@ router.put(
   async (req, res) => {
     const { id } = req.params;
 
-    const recipe = await Recipe.findByIdAndUpdate(id, req.body, { new: true });
+    let recipe = await Recipe.findById(id);
+
+    if (recipe._user.toString() != req.user._id) {
+      return res.status(403).send('Unauthorized');
+    }
+
+    recipe._doc = { ...recipe._doc, ...req.body };
+
+    await recipe.save();
 
     res.send(recipe);
   }

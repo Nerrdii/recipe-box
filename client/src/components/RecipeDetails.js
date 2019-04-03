@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Link, withRouter } from 'react-router-dom';
-import axios from 'axios';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import API from '../api';
 
 class RecipeDetails extends Component {
   state = {
@@ -14,15 +15,13 @@ class RecipeDetails extends Component {
   getRecipe = async () => {
     const id = this.props.match.params.id;
 
-    const res = await axios.get(`/api/recipes/${id}`);
+    const res = await API.get(`/api/recipes/${id}`);
 
     this.setState({ recipe: res.data });
   };
 
   onDelete = async () => {
-    await axios.delete(`/api/recipes/${this.state.recipe._id}`);
-
-    this.props.history.push('/');
+    await API.delete(`/api/recipes/${this.state.recipe._id}`);
   };
 
   render() {
@@ -65,20 +64,28 @@ class RecipeDetails extends Component {
             );
           })}
         </ul>
-        <Link
-          to={{
-            pathname: `/recipes/${this.state.recipe._id}/edit`,
-            state: this.state
-          }}
-          className="btn">
-          Edit
-        </Link>
-        <button className="btn red modal-trigger" onClick={this.onDelete}>
-          Delete
-        </button>
+        {this.props.user && this.props.user._id === this.state.recipe._user ? (
+          <Link
+            to={{
+              pathname: `/recipes/${this.state.recipe._id}/edit`,
+              state: this.state
+            }}
+            className="btn">
+            Edit
+          </Link>
+        ) : null}
+        {this.props.user && this.props.user._id === this.state.recipe._user ? (
+          <button className="btn red modal-trigger" onClick={this.onDelete}>
+            Delete
+          </button>
+        ) : null}
       </div>
     );
   }
 }
 
-export default withRouter(RecipeDetails);
+const mapStateToProps = ({ auth }) => {
+  return { user: auth.user };
+};
+
+export default connect(mapStateToProps)(RecipeDetails);
