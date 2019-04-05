@@ -1,31 +1,17 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import API from '../api';
+import { deleteRecipe } from '../actions/recipesActions';
 
 class RecipeDetails extends Component {
-  state = {
-    recipe: null
-  };
-
-  componentDidMount() {
-    this.getRecipe();
-  }
-
-  getRecipe = async () => {
-    const id = this.props.match.params.id;
-
-    const res = await API.get(`/api/recipes/${id}`);
-
-    this.setState({ recipe: res.data });
-  };
-
-  onDelete = async () => {
-    await API.delete(`/api/recipes/${this.state.recipe._id}`);
+  onDelete = () => {
+    this.props.deleteRecipe(this.props.recipe._id);
   };
 
   render() {
-    if (!this.state.recipe) {
+    const { recipe } = this.props;
+
+    if (!recipe) {
       return <div>Loading...</div>;
     }
 
@@ -34,19 +20,18 @@ class RecipeDetails extends Component {
         <Link to="/" className="btn grey">
           Back
         </Link>
-        <h2>{this.state.recipe.name}</h2>
+        <h2>{recipe.name}</h2>
         <div>
-          <p>{this.state.recipe.description}</p>
+          <p>Description: {recipe.description}</p>
           <p>
-            {this.state.recipe.servings !== null &&
-            this.state.recipe.servings !== 0
-              ? 'Servings: ' + this.state.recipe.servings
+            {recipe.servings !== null && recipe.servings !== 0
+              ? 'Servings: ' + recipe.servings
               : null}
           </p>
         </div>
         <h4>Ingredients</h4>
         <ul className="collection">
-          {this.state.recipe.ingredients.map((ingredient, index) => {
+          {recipe.ingredients.map((ingredient, index) => {
             return (
               <li className="collection-item" key={index}>
                 {ingredient}
@@ -56,7 +41,7 @@ class RecipeDetails extends Component {
         </ul>
         <h4>Directions</h4>
         <ul className="collection">
-          {this.state.recipe.directions.map((direction, index) => {
+          {recipe.directions.map((direction, index) => {
             return (
               <li className="collection-item" key={index}>
                 {index + 1}. {direction}
@@ -64,17 +49,17 @@ class RecipeDetails extends Component {
             );
           })}
         </ul>
-        {this.props.user && this.props.user._id === this.state.recipe._user ? (
+        {this.props.user && this.props.user._id === recipe._user ? (
           <Link
             to={{
-              pathname: `/recipes/${this.state.recipe._id}/edit`,
+              pathname: `/recipes/${recipe._id}/edit`,
               state: this.state
             }}
             className="btn">
             Edit
           </Link>
         ) : null}
-        {this.props.user && this.props.user._id === this.state.recipe._user ? (
+        {this.props.user && this.props.user._id === recipe._user ? (
           <button className="btn red modal-trigger" onClick={this.onDelete}>
             Delete
           </button>
@@ -84,8 +69,14 @@ class RecipeDetails extends Component {
   }
 }
 
-const mapStateToProps = ({ auth }) => {
-  return { user: auth.user };
+const mapStateToProps = ({ auth, recipes }, ownProps) => {
+  return {
+    user: auth.user,
+    recipe: recipes.find(r => r._id === ownProps.match.params.id)
+  };
 };
 
-export default connect(mapStateToProps)(RecipeDetails);
+export default connect(
+  mapStateToProps,
+  { deleteRecipe }
+)(RecipeDetails);

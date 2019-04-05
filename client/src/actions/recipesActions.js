@@ -1,6 +1,6 @@
+import { push } from 'connected-react-router';
 import API from '../api';
-
-import { GET_RECIPES, ADD_RECIPE } from './types';
+import { GET_RECIPES, ADD_RECIPE, UPDATE_RECIPE, DELETE_RECIPE } from './types';
 
 export const getRecipes = () => async dispatch => {
   const res = await API.get('/api/recipes');
@@ -12,4 +12,19 @@ export const addRecipe = recipe => async dispatch => {
   const res = await API.post('/api/recipes', recipe);
 
   dispatch({ type: ADD_RECIPE, payload: res.data });
+  dispatch(push('/'));
+};
+
+export const updateRecipe = (id, recipe) => async dispatch => {
+  const res = await API.put(`/api/recipes/${id}`, recipe);
+
+  dispatch({ type: UPDATE_RECIPE, payload: res.data });
+  dispatch(push(`/recipes/${id}`));
+};
+
+export const deleteRecipe = id => async dispatch => {
+  await API.delete(`/api/recipes/${id}`);
+
+  dispatch({ type: DELETE_RECIPE, payload: id });
+  dispatch(push('/'));
 };

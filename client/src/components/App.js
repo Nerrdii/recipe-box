@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Switch, Link } from 'react-router-dom';
+import { Route, Switch, Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Navbar from './Navbar';
 import RecipeList from './RecipeList';
@@ -38,4 +38,4 @@ const mapStateToProps = ({ auth }) => {
   return { loggedIn: auth.loggedIn };
 };
 
-export default connect(mapStateToProps)(App);
+export default withRouter(connect(mapStateToProps)(App));
