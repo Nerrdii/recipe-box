@@ -44,6 +44,7 @@ router.put(
   passport.authenticate('jwt', { session: false }),
   async (req, res) => {
     const { id } = req.params;
+    const { name, description, servings, directions, ingredients } = req.body;
 
     let recipe = await Recipe.findById(id);
 
@@ -51,7 +52,11 @@ router.put(
       return res.status(403).send('Unauthorized');
     }
 
-    recipe._doc = { ...recipe._doc, ...req.body };
+    recipe.name = name;
+    recipe.description = description;
+    recipe.servings = servings;
+    recipe.directions = directions;
+    recipe.ingredients = ingredients;
 
     await recipe.save();
 
