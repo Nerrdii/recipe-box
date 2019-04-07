@@ -4,10 +4,8 @@ import { Link } from 'react-router-dom';
 const Recipe = ({ recipe }) => (
   <div className="card">
     <div className="card-content">
-      <span className="card-title">
-        <Link to={`/recipes/${recipe._id}`}>{recipe.name}</Link>
-      </span>
-      <p>{recipe.description}</p>
+      <span className="card-title">{recipe.name}</span>
+      <p>Description: {recipe.description}</p>
       <p>
         {recipe.servings !== 0 &&
         recipe.servings !== '' &&
@@ -15,6 +13,9 @@ const Recipe = ({ recipe }) => (
           ? 'Servings: ' + recipe.servings
           : null}
       </p>
+    </div>
+    <div className="card-action">
+      <Link to={`/recipes/${recipe._id}`}>Details</Link>
     </div>
   </div>
 );

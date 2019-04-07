@@ -1,81 +1,55 @@
 import React, { Component } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import { Formik, Field, FieldArray, Form } from 'formik';
 import ErrorMessage from './ErrorMessage';
-
+import { updateRecipe } from '../actions/recipesActions';
 import schema from '../config/schema.js';
+import API from '../api';
 
 class EditRecipe extends Component {
   state = {
-    name: '',
-    description: '',
-    servings: 0,
-    ingredients: [],
-    directions: []
+    recipe: null
   };
-
-  handleSubmit(values, e, formApi) {
-    fetch(`/api/recipes`, {
-      method: 'POST',
-      body: JSON.stringify(values),
-      headers: new Headers({
-        'Content-Type': 'application/json'
-      })
-    }).catch(err => console.log(err));
-  }
 
   componentDidMount() {
     this.getRecipe();
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    if (nextState !== null) {
-      return true;
-    }
-  }
+  async getRecipe() {
+    const id = this.props.match.params.id;
 
-  getRecipe() {
-    const _id = this.props.match.params.id;
+    const res = await API.get(`/api/recipes/${id}`);
 
-    fetch(`/api/recipes/${_id}`)
-      .then(res => res.json())
-      .then(data => {
-        this.setState({
-          name: data.name,
-          description: data.description,
-          servings: data.servings,
-          ingredients: data.ingredients,
-          directions: data.directions
-        });
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    this.setState({ recipe: res.data });
   }
 
   render() {
+    if (!this.state.recipe) {
+      return <p>Loading...</p>;
+    }
+
+    const {
+      _id,
+      name,
+      description,
+      servings,
+      ingredients,
+      directions
+    } = this.state.recipe;
+
     return (
       <Formik
         initialValues={{
-          name: this.state.name,
-          description: this.state.description,
-          servings: this.state.servings,
-          ingredients: this.state.ingredients,
-          directions: this.state.directions
+          name,
+          description,
+          servings,
+          ingredients,
+          directions
         }}
         enableReinitialize={true}
         onSubmit={values => {
-          const _id = this.props.match.params.id;
-
-          fetch(`/api/recipes/${_id}`, {
-            method: 'PUT',
-            body: JSON.stringify(values),
-            headers: new Headers({
-              'Content-Type': 'application/json'
-            })
-          }).catch(err => console.log(err));
-
-          this.props.history.push(`/recipes/${_id}`);
+          this.props.updateRecipe(_id, { ...this.state.recipe, ...values });
         }}
         validationSchema={schema}
         render={({
@@ -90,9 +64,7 @@ class EditRecipe extends Component {
         }) => (
           <Form>
             <br />
-            <Link
-              to={`/recipes/${this.props.match.params.id}`}
-              className="btn grey">
+            <Link to={`/recipes/${_id}`} className="btn grey">
               Cancel
             </Link>
             <h1>Edit Recipe</h1>
@@ -245,4 +217,7 @@ class EditRecipe extends Component {
   }
 }
 
-export default withRouter(EditRecipe);
+export default connect(
+  null,
+  { updateRecipe }
+)(EditRecipe);
