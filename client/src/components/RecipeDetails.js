@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { deleteRecipe } from '../actions/recipesActions';
+import { getRecipe, deleteRecipe } from '../actions/recipesActions';
 
 class RecipeDetails extends Component {
+  componentDidMount() {
+    const id = this.props.match.params.id;
+    this.props.getRecipe(id);
+  }
+
   onDelete = () => {
     this.props.deleteRecipe(this.props.recipe._id);
   };
@@ -16,53 +21,51 @@ class RecipeDetails extends Component {
     }
 
     return (
-      <div style={{ marginTop: '20px' }}>
-        <Link to="/" className="btn grey">
+      <div className="mt-4">
+        <Link to="/" className="btn btn-secondary">
           Back
         </Link>
-        <h2>{recipe.name}</h2>
-        <div>
-          <p>Description: {recipe.description}</p>
-          <p>
-            {recipe.servings !== null && recipe.servings !== 0
-              ? 'Servings: ' + recipe.servings
-              : null}
-          </p>
-        </div>
+        <h2 className="mt-3">{recipe.name}</h2>
+        <p>Description: {recipe.description}</p>
+        <p>
+          {recipe.servings !== null && recipe.servings !== 0
+            ? 'Servings: ' + recipe.servings
+            : null}
+        </p>
         <h4>Ingredients</h4>
-        <ul className="collection">
+        <ul className="list-group mb-4">
           {recipe.ingredients.map((ingredient, index) => {
             return (
-              <li className="collection-item" key={index}>
+              <li className="list-group-item" key={index}>
                 {ingredient}
               </li>
             );
           })}
         </ul>
         <h4>Directions</h4>
-        <ul className="collection">
+        <ul className="list-group">
           {recipe.directions.map((direction, index) => {
             return (
-              <li className="collection-item" key={index}>
+              <li className="list-group-item" key={index}>
                 {index + 1}. {direction}
               </li>
             );
           })}
         </ul>
         {this.props.user && this.props.user._id === recipe._user ? (
-          <Link
-            to={{
-              pathname: `/recipes/${recipe._id}/edit`,
-              state: this.state
-            }}
-            className="btn">
-            Edit
-          </Link>
-        ) : null}
-        {this.props.user && this.props.user._id === recipe._user ? (
-          <button className="btn red modal-trigger" onClick={this.onDelete}>
-            Delete
-          </button>
+          <div className="mt-3">
+            <Link
+              to={{
+                pathname: `/recipes/${recipe._id}/edit`,
+                state: this.props.recipe
+              }}
+              className="btn btn-primary mr-3">
+              Edit
+            </Link>
+            <button className="btn btn-danger" onClick={this.onDelete}>
+              Delete
+            </button>
+          </div>
         ) : null}
       </div>
     );
@@ -78,5 +81,5 @@ const mapStateToProps = ({ auth, recipes }, ownProps) => {
 
 export default connect(
   mapStateToProps,
-  { deleteRecipe }
+  { getRecipe, deleteRecipe }
 )(RecipeDetails);

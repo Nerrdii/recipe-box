@@ -1,5 +1,6 @@
 import {
   GET_RECIPES,
+  GET_RECIPE,
   ADD_RECIPE,
   UPDATE_RECIPE,
   DELETE_RECIPE
@@ -9,6 +10,8 @@ export default (state = [], action) => {
   switch (action.type) {
     case GET_RECIPES:
       return [...action.payload];
+    case GET_RECIPE:
+      return [...state, action.payload];
     case ADD_RECIPE:
       return [...state, action.payload];
     case UPDATE_RECIPE:

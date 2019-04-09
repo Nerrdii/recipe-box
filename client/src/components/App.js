@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Switch, Link, withRouter } from 'react-router-dom';
+import { Route, Switch, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Navbar from './Navbar';
 import RecipeList from './RecipeList';
@@ -13,7 +13,7 @@ class App extends Component {
     return (
       <React.Fragment>
         <Navbar />
-        <div className="container">
+        <div className="container mt-4">
           <Switch>
             <Route exact path="/" component={RecipeList} />
             <Route exact path="/recipes/add" component={AddRecipe} />
@@ -22,13 +22,6 @@ class App extends Component {
             <Route path="/redirect" component={RedirectComponent} />
           </Switch>
         </div>
-        {this.props.loggedIn ? (
-          <div className="fixed-action-btn">
-            <Link to="/recipes/add" className="btn-floating btn-large red">
-              <i className="large material-icons">add</i>
-            </Link>
-          </div>
-        ) : null}
       </React.Fragment>
     );
   }

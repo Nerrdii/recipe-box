@@ -4,13 +4,64 @@ import { connect } from 'react-redux';
 import { Formik, Field, FieldArray, Form } from 'formik';
 import ErrorMessage from './ErrorMessage';
 
-import './css/AddRecipe.css';
-
 import { addRecipe } from '../actions/recipesActions';
 
 import schema from '../config/schema.js';
 
 class AddRecipe extends Component {
+  renderFieldArray = (values, field, label, handleChange, handleBlur) => {
+    return (
+      <FieldArray
+        name={field}
+        id={field}
+        render={arrayHelpers => (
+          <React.Fragment>
+            <div className="d-flex">
+              <h4 className="mr-3">{label}s</h4>
+              <button
+                type="button"
+                className="btn btn-primary mb-3"
+                onClick={() => arrayHelpers.push('')}>
+                Add
+              </button>
+            </div>
+            {values && values.length > 0 ? (
+              values.map((v, index) => (
+                <div className="form-group" key={index}>
+                  <label htmlFor={`${field}.${index}`}>
+                    {label} #{index + 1}
+                  </label>
+                  <div className="input-group">
+                    <Field
+                      type="text"
+                      name={`${field}.${index}`}
+                      id={`${field}.${index}`}
+                      className="form-control"
+                      values={values[index]}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                    <div className="input-group-append">
+                      <button
+                        type="button"
+                        className="btn btn-danger"
+                        onClick={() => arrayHelpers.remove(index)}>
+                        Remove
+                      </button>
+                    </div>
+                  </div>
+                  <ErrorMessage name={`${field}.${index}`} />
+                </div>
+              ))
+            ) : (
+              <ErrorMessage name={field} />
+            )}
+          </React.Fragment>
+        )}
+      />
+    );
+  };
+
   render() {
     return (
       <Formik
@@ -24,8 +75,6 @@ class AddRecipe extends Component {
         enableReinitialize={true}
         onSubmit={values => {
           this.props.addRecipe(values);
-
-          this.props.history.push(`/`);
         }}
         validationSchema={schema}
         render={({
@@ -38,153 +87,78 @@ class AddRecipe extends Component {
           handleReset,
           dirty
         }) => (
-          <Form>
-            <br />
-            <Link to="/" className="btn grey">
-              Cancel
-            </Link>
-            <h1>Add Recipe</h1>
-            <div className="col s12">
-              <div className="input-field">
-                <Field
-                  type="text"
-                  name="name"
-                  id="name"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                />
-                <label htmlFor="name">Name</label>
-                {touched.name && errors.name && (
-                  <div className="chip red">{errors.name}</div>
-                )}
-              </div>
-              <div className="input-field">
-                <Field
-                  type="text"
-                  name="description"
-                  id="description"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                />
-                <label htmlFor="description">Description</label>
-              </div>
-              <div className="input-field">
-                <Field
-                  type="number"
-                  name="servings"
-                  id="servings"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                />
-                <label htmlFor="servings">Servings</label>
-              </div>
-              <h4>Ingredients</h4>
-              <FieldArray
-                name="ingredients"
-                id="ingredients"
-                render={arrayHelpers => {
-                  return values.ingredients && values.ingredients.length > 0 ? (
-                    values.ingredients.map((ingredient, index) => (
-                      <div className="input-field" key={index}>
-                        <Field
-                          type="text"
-                          name={`ingredients.${index}`}
-                          id={`ingredients.${index}`}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                        />
-                        <ErrorMessage name={`ingredients.${index}`} />
-                        <label htmlFor={`ingredients.${index}`}>
-                          Ingredient
-                        </label>
-                        <button
-                          type="button"
-                          className="btn"
-                          onClick={() => arrayHelpers.remove(index)}>
-                          Remove
-                        </button>
-                        <button
-                          type="button"
-                          className="btn"
-                          onClick={() => arrayHelpers.insert(index + 1, '')}>
-                          Add
-                        </button>
-                      </div>
-                    ))
-                  ) : (
-                    <div>
-                      <ErrorMessage name="ingredients" />
-                      <button
-                        type="button"
-                        className="btn"
-                        onClick={() => arrayHelpers.push('')}>
-                        Add an Ingredient
-                      </button>
-                    </div>
-                  );
-                }}
+          <Form className="my-4">
+            <h1 className="mt-3">Add Recipe</h1>
+            <div className="form-group">
+              <label htmlFor="name">Name</label>
+              <Field
+                type="text"
+                name="name"
+                id="name"
+                className="form-control"
+                value={values.name}
+                onChange={handleChange}
+                onBlur={handleBlur}
               />
-              <h4>Directions</h4>
-              <FieldArray
-                name="directions"
-                render={arrayHelpers => (
-                  <div>
-                    {values.directions && values.directions.length > 0 ? (
-                      values.directions.map((direction, index) => (
-                        <div className="input-field" key={index}>
-                          <Field
-                            type="text"
-                            name={`directions.${index}`}
-                            id={`directions.${index}`}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                          />
-                          <ErrorMessage name={`directions.${index}`} />
-                          <label htmlFor={`directions.${index}`}>
-                            Direction
-                          </label>
-                          <button
-                            type="button"
-                            className="btn"
-                            onClick={() => arrayHelpers.remove(index)}>
-                            Remove
-                          </button>
-                          <button
-                            type="button"
-                            className="btn"
-                            onClick={() => arrayHelpers.insert(index + 1, '')}>
-                            Add
-                          </button>
-                        </div>
-                      ))
-                    ) : (
-                      <div>
-                        <ErrorMessage name="directions" />
-                        <button
-                          type="button"
-                          className="btn"
-                          onClick={() => arrayHelpers.push('')}>
-                          Add a Direction
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                )}
+              {touched.name && errors.name && errors.name}
+            </div>
+            <div className="form-group">
+              <label htmlFor="description">Description</label>
+              <Field
+                type="text"
+                name="description"
+                id="description"
+                className="form-control"
+                value={values.description}
+                onChange={handleChange}
+                onBlur={handleBlur}
               />
-              <br />
-              <br />
-              <button
-                type="button"
-                className="btn grey"
-                onClick={handleReset}
-                disabled={!dirty || isSubmitting}>
-                Reset
-              </button>
-              <button type="submit" className="btn" disabled={isSubmitting}>
-                Submit
-              </button>
-              <br />
-              <br />
+            </div>
+            <div className="form-group">
+              <label htmlFor="servings">Servings</label>
+              <Field
+                type="number"
+                name="servings"
+                id="servings"
+                className="form-control"
+                value={values.servings}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+            </div>
+            {this.renderFieldArray(
+              values.ingredients,
+              'ingredients',
+              'Ingredient',
+              handleChange,
+              handleBlur
+            )}
+            {this.renderFieldArray(
+              values.directions,
+              'directions',
+              'Direction',
+              handleChange,
+              handleBlur
+            )}
+            <div className="mt-5">
+              <Link to="/" className="btn btn-secondary">
+                Cancel
+              </Link>
+              <div className="float-right">
+                <button
+                  type="button"
+                  className="btn btn-secondary mr-3"
+                  onClick={handleReset}
+                  disabled={!dirty || isSubmitting}>
+                  Reset
+                </button>
+                <button
+                  type="submit"
+                  className="btn btn-primary"
+                  disabled={isSubmitting}>
+                  Submit
+                </button>
+              </div>
             </div>
           </Form>
         )}

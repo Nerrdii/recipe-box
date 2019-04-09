@@ -2,49 +2,50 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logout } from '../actions/userActions';
-import './css/Navbar.css';
 
 export const Navbar = ({ logout, loggedIn }) => (
-  <nav className="indigo">
-    <div className="nav-wrapper">
-      <Link to="/" className="brand-logo">
-        Recipe Box
-      </Link>
-      <a data-activates="sidebar" className="button-collapse">
-        <i className="material-icons">menu</i>
-      </a>
-      <ul className="right hide-on-med-and-down">
-        {loggedIn ? (
-          <li>
-            <button className="btn-flat red white-text" onClick={logout}>
-              Logout
-            </button>
-          </li>
-        ) : (
-          <li>
-            <a href="/auth/google" className="btn-flat red white-text">
-              Sign in with Google
-            </a>
-          </li>
-        )}
-        <li>
-          <Link to="/">Recipes</Link>
+  <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+    <Link to="/" className="navbar-brand">
+      Recipe Box
+    </Link>
+    <button
+      className="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#mobileNavbar"
+      aria-controls="mobileNavbar"
+      aria-expanded="false"
+      aria-label="Toggle navigation">
+      <span className="navbar-toggler-icon" />
+    </button>
+
+    <div className="collapse navbar-collapse" id="mobileNavbar">
+      <ul className="navbar-nav mr-auto">
+        <li className="nav-item">
+          <Link to="/" className="nav-link">
+            Recipes
+          </Link>
         </li>
         {loggedIn ? (
-          <li>
-            <Link to="/recipes/add">Add Recipe</Link>
+          <li className="nav-item">
+            <Link to="/recipes/add" className="nav-link">
+              Add Recipe
+            </Link>
           </li>
         ) : null}
       </ul>
-      <ul className="side-nav" id="sidebar">
-        <li>
-          <Link to="/">Recipes</Link>
+      <ul className="navbar-nav ml-auto">
+        <li className="nav-item">
+          {loggedIn ? (
+            <button className="btn btn-danger" onClick={logout}>
+              Logout
+            </button>
+          ) : (
+            <a href="/auth/google" className="btn btn-danger">
+              Sign in with Google
+            </a>
+          )}
         </li>
-        {loggedIn ? (
-          <li>
-            <Link to="/recipes/add">Add Recipe</Link>
-          </li>
-        ) : null}
       </ul>
     </div>
   </nav>
