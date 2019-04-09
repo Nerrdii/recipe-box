@@ -2,6 +2,16 @@ import axios from 'axios';
 
 const token = sessionStorage.getItem('token');
 
-export default axios.create({
-  headers: { Authorization: `Bearer ${token}` }
+const api = axios.create({
+  headers: { 'Content-Type': 'application/json' }
 });
+
+api.interceptors.request.use(config => {
+  if (token) {
+    config.headers['Authorization'] = `Bearer ${token}`;
+  }
+
+  return config;
+});
+
+export default api;
