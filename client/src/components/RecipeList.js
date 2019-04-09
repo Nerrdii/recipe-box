@@ -32,7 +32,7 @@ class Recipes extends Component {
 }
 
 const mapStateToProps = ({ recipes }) => {
-  return { recipes };
+  return { recipes: Object.values(recipes) };
 };
 
 export default connect(

@@ -75,7 +75,7 @@ class RecipeDetails extends Component {
 const mapStateToProps = ({ auth, recipes }, ownProps) => {
   return {
     user: auth.user,
-    recipe: recipes.find(r => r._id === ownProps.match.params.id)
+    recipe: recipes[ownProps.match.params.id]
   };
 };
 
