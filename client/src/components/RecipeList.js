@@ -19,14 +19,14 @@ class Recipes extends Component {
 
   render() {
     return (
-      <div>
+      <React.Fragment>
         <h1>Recipes</h1>
         {this.props.recipes.length !== 0 ? (
           <div className="recipe-container">{this.renderList()}</div>
         ) : (
           <p>No Recipes</p>
         )}
-      </div>
+      </React.Fragment>
     );
   }
 }

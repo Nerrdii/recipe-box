@@ -1,23 +1,24 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Card from 'react-bootstrap/Card';
 
 const Recipe = ({ recipe }) => (
-  <div className="card">
-    <div className="card-body">
-      <h5 className="card-title">{recipe.name}</h5>
+  <Card>
+    <Card.Body>
+      <Card.Title>{recipe.name}</Card.Title>
       {recipe.servings !== 0 &&
       recipe.servings !== '' &&
       recipe.servings != null ? (
-        <h6 className="card-subtitle mb-2 text-muted">
+        <Card.Subtitle className="mb-2 text-muted">
           Servings: {recipe.servings}
-        </h6>
+        </Card.Subtitle>
       ) : null}
-      <p className="card-text">{recipe.description}</p>
+      <Card.Text>{recipe.description}</Card.Text>
       <Link to={`/recipes/${recipe._id}`} className="btn btn-primary">
         Details
       </Link>
-    </div>
-  </div>
+    </Card.Body>
+  </Card>
 );
 
 export default Recipe;

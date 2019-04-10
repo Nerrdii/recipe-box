@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Formik, Field, FieldArray, Form } from 'formik';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import InputGroup from 'react-bootstrap/InputGroup';
+import { Formik, Field, FieldArray, Form as FormikForm } from 'formik';
 import ErrorMessage from './ErrorMessage';
 
 import { addRecipe } from '../actions/recipesActions';
@@ -18,20 +21,21 @@ class AddRecipe extends Component {
           <React.Fragment>
             <div className="d-flex">
               <h4 className="mr-3">{label}s</h4>
-              <button
+              <Button
                 type="button"
-                className="btn btn-primary mb-3"
+                variant="primary"
+                className="mb-3"
                 onClick={() => arrayHelpers.push('')}>
                 Add
-              </button>
+              </Button>
             </div>
             {values && values.length > 0 ? (
               values.map((v, index) => (
-                <div className="form-group" key={index}>
-                  <label htmlFor={`${field}.${index}`}>
+                <Form.Group key={index}>
+                  <Form.Label htmlFor={`${field}.${index}`}>
                     {label} #{index + 1}
-                  </label>
-                  <div className="input-group">
+                  </Form.Label>
+                  <InputGroup>
                     <Field
                       type="text"
                       name={`${field}.${index}`}
@@ -41,17 +45,17 @@ class AddRecipe extends Component {
                       onChange={handleChange}
                       onBlur={handleBlur}
                     />
-                    <div className="input-group-append">
-                      <button
+                    <InputGroup.Append>
+                      <Button
                         type="button"
-                        className="btn btn-danger"
+                        variant="danger"
                         onClick={() => arrayHelpers.remove(index)}>
                         Remove
-                      </button>
-                    </div>
-                  </div>
+                      </Button>
+                    </InputGroup.Append>
+                  </InputGroup>
                   <ErrorMessage name={`${field}.${index}`} />
-                </div>
+                </Form.Group>
               ))
             ) : (
               <ErrorMessage name={field} />
@@ -87,10 +91,10 @@ class AddRecipe extends Component {
           handleReset,
           dirty
         }) => (
-          <Form className="my-4">
+          <FormikForm className="my-4">
             <h1 className="mt-3">Add Recipe</h1>
-            <div className="form-group">
-              <label htmlFor="name">Name</label>
+            <Form.Group>
+              <Form.Label htmlFor="name">Name</Form.Label>
               <Field
                 type="text"
                 name="name"
@@ -101,9 +105,9 @@ class AddRecipe extends Component {
                 onBlur={handleBlur}
               />
               {touched.name && errors.name && errors.name}
-            </div>
-            <div className="form-group">
-              <label htmlFor="description">Description</label>
+            </Form.Group>
+            <Form.Group>
+              <Form.Label htmlFor="description">Description</Form.Label>
               <Field
                 type="text"
                 name="description"
@@ -113,9 +117,9 @@ class AddRecipe extends Component {
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
-            </div>
-            <div className="form-group">
-              <label htmlFor="servings">Servings</label>
+            </Form.Group>
+            <Form.Group>
+              <Form.Label htmlFor="servings">Servings</Form.Label>
               <Field
                 type="number"
                 name="servings"
@@ -125,7 +129,7 @@ class AddRecipe extends Component {
                 onChange={handleChange}
                 onBlur={handleBlur}
               />
-            </div>
+            </Form.Group>
             {this.renderFieldArray(
               values.ingredients,
               'ingredients',
@@ -145,22 +149,20 @@ class AddRecipe extends Component {
                 Cancel
               </Link>
               <div className="float-right">
-                <button
+                <Button
                   type="button"
-                  className="btn btn-secondary mr-3"
+                  variant="secondary"
+                  className="mr-3"
                   onClick={handleReset}
                   disabled={!dirty || isSubmitting}>
                   Reset
-                </button>
-                <button
-                  type="submit"
-                  className="btn btn-primary"
-                  disabled={isSubmitting}>
+                </Button>
+                <Button type="submit" variant="primary" disabled={isSubmitting}>
                   Submit
-                </button>
+                </Button>
               </div>
             </div>
-          </Form>
+          </FormikForm>
         )}
       />
     );
