@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import Container from 'react-bootstrap/Container';
 import Header from './Header';
 import RecipeList from './RecipeList';
-import AddRecipe from './AddRecipe';
 import EditRecipe from './EditRecipe';
 import RecipeDetails from './RecipeDetails';
 import RedirectComponent from './RedirectComponent';
@@ -17,7 +16,7 @@ class App extends Component {
         <Container className="mt-4">
           <Switch>
             <Route exact path="/" component={RecipeList} />
-            <Route exact path="/recipes/add" component={AddRecipe} />
+            <Route exact path="/recipes/add" component={EditRecipe} />
             <Route path="/recipes/:id/edit" component={EditRecipe} />
             <Route path="/recipes/:id" component={RecipeDetails} />
             <Route path="/redirect" component={RedirectComponent} />

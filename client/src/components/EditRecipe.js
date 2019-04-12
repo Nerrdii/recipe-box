@@ -6,10 +6,37 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { Formik, Field, FieldArray, Form as FormikForm } from 'formik';
 import ErrorMessage from './ErrorMessage';
-import { updateRecipe } from '../actions/recipesActions';
+import { addRecipe, updateRecipe } from '../actions/recipesActions';
 import schema from '../config/schema.js';
 
 class EditRecipe extends Component {
+  state = {
+    editMode: false,
+    recipe: null
+  };
+
+  componentDidMount() {
+    this.props.location.state
+      ? this.setState({ editMode: true }, this.setRecipe)
+      : this.setState({ editMode: false }, this.setRecipe);
+  }
+
+  setRecipe = () => {
+    if (this.state.editMode) {
+      this.setState({ recipe: this.props.location.state });
+    } else {
+      const recipe = {
+        name: '',
+        description: '',
+        servings: 0,
+        ingredients: [''],
+        directions: ['']
+      };
+
+      this.setState({ recipe });
+    }
+  };
+
   renderFieldArray = (values, field, label, handleChange, handleBlur) => {
     return (
       <FieldArray
@@ -65,14 +92,17 @@ class EditRecipe extends Component {
   };
 
   render() {
+    if (!this.state.recipe) {
+      return <p>Loading...</p>;
+    }
+
     const {
-      _id,
       name,
       description,
       servings,
       ingredients,
       directions
-    } = this.props.location.state;
+    } = this.state.recipe;
 
     return (
       <Formik
@@ -85,10 +115,14 @@ class EditRecipe extends Component {
         }}
         enableReinitialize={true}
         onSubmit={values => {
-          this.props.updateRecipe(_id, {
-            ...this.props.location.state,
-            ...values
-          });
+          if (this.state.editMode) {
+            this.props.updateRecipe(this.state.recipe._id, {
+              ...this.props.location.state,
+              ...values
+            });
+          } else {
+            this.props.addRecipe(values);
+          }
         }}
         validationSchema={schema}
         render={({
@@ -102,7 +136,9 @@ class EditRecipe extends Component {
           dirty
         }) => (
           <FormikForm className="my-4">
-            <h1 className="mt-3">Edit Recipe</h1>
+            <h1 className="mt-3">
+              {this.state.editMode ? 'Edit Recipe' : 'Add Recipe'}
+            </h1>
             <Form.Group>
               <Form.Label htmlFor="name">Name</Form.Label>
               <Field
@@ -155,9 +191,17 @@ class EditRecipe extends Component {
               handleBlur
             )}
             <div className="mt-5">
-              <Link to={`/recipes/${_id}`} className="btn btn-secondary">
-                Cancel
-              </Link>
+              {this.state.recipe._id ? (
+                <Link
+                  to={`/recipes/${this.state.recipe._id}`}
+                  className="btn btn-secondary">
+                  Cancel
+                </Link>
+              ) : (
+                <Link to="/" className="btn btn-secondary">
+                  Cancel
+                </Link>
+              )}
               <div className="float-right">
                 <Button
                   type="button"
@@ -181,5 +225,5 @@ class EditRecipe extends Component {
 
 export default connect(
   null,
-  { updateRecipe }
+  { addRecipe, updateRecipe }
 )(EditRecipe);
