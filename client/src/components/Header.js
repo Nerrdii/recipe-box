@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
+import NavDropdown from 'react-bootstrap/NavDropdown';
 import { logout } from '../actions/userActions';
 
-export const Header = ({ logout, loggedIn }) => (
+export const Header = ({ logout, loggedIn, user }) => (
   <Navbar bg="dark" variant="dark" expand="lg">
     <Link to="/" className="navbar-brand">
       Recipe Box
@@ -28,24 +29,24 @@ export const Header = ({ logout, loggedIn }) => (
         ) : null}
       </Nav>
       <Nav className="ml-auto">
-        <Nav.Item>
-          {loggedIn ? (
-            <Button variant="danger" onClick={logout}>
-              Logout
-            </Button>
-          ) : (
+        {loggedIn ? (
+          <NavDropdown b title={`Welcome ${user.name}`}>
+            <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
+          </NavDropdown>
+        ) : (
+          <Nav.Item>
             <a href="/auth/google" className="btn btn-danger">
               Sign in with Google
             </a>
-          )}
-        </Nav.Item>
+          </Nav.Item>
+        )}
       </Nav>
     </Navbar.Collapse>
   </Navbar>
 );
 
 const mapStateToProps = ({ auth }) => {
-  return { loggedIn: auth.loggedIn };
+  return { loggedIn: auth.loggedIn, user: auth.user };
 };
 
 export default connect(
