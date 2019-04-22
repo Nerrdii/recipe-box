@@ -1,7 +1,6 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Button from 'react-bootstrap/Button';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
@@ -30,7 +29,7 @@ export const Header = ({ logout, loggedIn, user }) => (
       </Nav>
       <Nav className="ml-auto">
         {loggedIn ? (
-          <NavDropdown b title={`Welcome ${user.name}`}>
+          <NavDropdown title={`Welcome ${user.name}`}>
             <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
           </NavDropdown>
         ) : (
