@@ -12,6 +12,7 @@ export const logout = () => async dispatch => {
   sessionStorage.removeItem('token');
 
   dispatch({ type: LOGOUT });
+  dispatch(push('/'));
 };
 
 const getUser = token => jwtDecode(token).user;
