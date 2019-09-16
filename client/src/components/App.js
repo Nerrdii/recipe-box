@@ -8,14 +8,20 @@ import AddRecipe from './AddRecipe';
 import EditRecipe from './EditRecipe';
 import RecipeDetails from './RecipeDetails';
 import RedirectComponent from './RedirectComponent';
+import AuthRoute from './AuthRoute';
 
-const App = () => (
+const App = props => (
   <React.Fragment>
     <Header />
     <Container className="mt-4">
       <Switch>
         <Route exact path="/" component={RecipeList} />
-        <Route exact path="/recipes/add" component={AddRecipe} />
+        <AuthRoute
+          exact
+          path="/recipes/add"
+          component={AddRecipe}
+          authenticated={props.loggedIn}
+        />
         <Route path="/recipes/:id/edit" component={EditRecipe} />
         <Route path="/recipes/:id" component={RecipeDetails} />
         <Route path="/redirect" component={RedirectComponent} />
