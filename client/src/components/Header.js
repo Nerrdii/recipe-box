@@ -34,7 +34,7 @@ export const Header = ({ logout, loggedIn, user }) => (
           </NavDropdown>
         ) : (
           <Nav.Item>
-            <a href="/auth/google" className="btn btn-danger">
+            <a href="/api/auth/google" className="btn btn-danger">
               Sign in with Google
             </a>
           </Nav.Item>
