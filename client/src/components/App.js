@@ -10,7 +10,7 @@ import RecipeDetails from './RecipeDetails';
 import RedirectComponent from './RedirectComponent';
 import AuthRoute from './AuthRoute';
 
-const App = props => (
+const App = (props) => (
   <React.Fragment>
     <Header />
     <Container className="mt-4">
