@@ -9,9 +9,10 @@ import schema from '../config/schema.js';
 const RecipeForm = ({ initialValues, cancelLink, onSubmit }) => (
   <Formik
     initialValues={initialValues}
-    onSubmit={values => onSubmit(values)}
+    onSubmit={(values) => onSubmit(values)}
     validationSchema={schema}
-    render={({
+  >
+    {({
       values,
       errors,
       touched,
@@ -20,7 +21,7 @@ const RecipeForm = ({ initialValues, cancelLink, onSubmit }) => (
       handleSubmit,
       isSubmitting,
       handleReset,
-      dirty
+      dirty,
     }) => (
       <Form className="my-4" onSubmit={handleSubmit}>
         <Form.Group>
@@ -70,7 +71,7 @@ const RecipeForm = ({ initialValues, cancelLink, onSubmit }) => (
         <FieldArray
           name="ingredients"
           id="ingredients"
-          render={arrayHelpers => {
+          render={(arrayHelpers) => {
             const { ingredients } = values;
 
             return (
@@ -81,7 +82,8 @@ const RecipeForm = ({ initialValues, cancelLink, onSubmit }) => (
                     type="button"
                     variant="primary"
                     className="mb-3"
-                    onClick={() => arrayHelpers.push('')}>
+                    onClick={() => arrayHelpers.push('')}
+                  >
                     Add
                   </Button>
                 </div>
@@ -111,7 +113,8 @@ const RecipeForm = ({ initialValues, cancelLink, onSubmit }) => (
                           <Button
                             type="button"
                             variant="danger"
-                            onClick={() => arrayHelpers.remove(index)}>
+                            onClick={() => arrayHelpers.remove(index)}
+                          >
                             &times;
                           </Button>
                         </InputGroup.Append>
@@ -133,7 +136,7 @@ const RecipeForm = ({ initialValues, cancelLink, onSubmit }) => (
         <FieldArray
           name="directions"
           id="directions"
-          render={arrayHelpers => {
+          render={(arrayHelpers) => {
             const { directions } = values;
 
             return (
@@ -144,7 +147,8 @@ const RecipeForm = ({ initialValues, cancelLink, onSubmit }) => (
                     type="button"
                     variant="primary"
                     className="mb-3"
-                    onClick={() => arrayHelpers.push('')}>
+                    onClick={() => arrayHelpers.push('')}
+                  >
                     Add
                   </Button>
                 </div>
@@ -174,7 +178,8 @@ const RecipeForm = ({ initialValues, cancelLink, onSubmit }) => (
                           <Button
                             type="button"
                             variant="danger"
-                            onClick={() => arrayHelpers.remove(index)}>
+                            onClick={() => arrayHelpers.remove(index)}
+                          >
                             &times;
                           </Button>
                         </InputGroup.Append>
@@ -201,7 +206,8 @@ const RecipeForm = ({ initialValues, cancelLink, onSubmit }) => (
               variant="secondary"
               className="mr-3"
               onClick={handleReset}
-              disabled={!dirty || isSubmitting}>
+              disabled={!dirty || isSubmitting}
+            >
               Reset
             </Button>
             <Button type="submit" variant="primary" disabled={isSubmitting}>
@@ -211,7 +217,7 @@ const RecipeForm = ({ initialValues, cancelLink, onSubmit }) => (
         </div>
       </Form>
     )}
-  />
+  </Formik>
 );
 
 export default RecipeForm;

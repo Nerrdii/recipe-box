@@ -1,4 +1,4 @@
-import jwtDecode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import { LOGIN, LOGOUT } from '../actions/types';
 
 const token = sessionStorage.getItem('token');
@@ -15,14 +15,14 @@ export default (state = initialState, action) => {
         ...state,
         loggedIn: true,
         token: action.payload.token,
-        user: action.payload.user
+        user: action.payload.user,
       };
     case LOGOUT:
       return {
         ...state,
         loggedIn: false,
         token: null,
-        user: null
+        user: null,
       };
     default:
       return state;
